@@ -3,8 +3,8 @@ from requests.auth import HTTPBasicAuth
 
 def payment_check():
     url = "https://api-m.sandbox.paypal.com/v1/oauth2/token"
-    client_id = "AVm2PoAZo_69l6YvnUGV3McqnmLZjb9K1UscsI_-6X7Bdsw0TA5j59ipBKm_b8d2etuhrOMGFEkdHm5Q"
-    client_secret = "EL4tH-YkTbTrZ3ieyF8mCLhbgfwVQdn-w9iDjDXqFQRpHCdTuVe5MjypDQ6fzN0mKLYrm2yie1coNr8C"
+    client_id = "CLIENTID"
+    client_secret = "CLIENTSECRET"
     headers = {
         "Content-Type": "application/x-www-form-urlencoded"
     }
@@ -41,7 +41,7 @@ def create_paypal_order(access_token, total_with_shipping):
     response = requests.post(url, headers=headers, json=data)
     if response.status_code == 201:
         result = response.json()
-        order_id = result["id"]  # THIS is your payment_id
+        order_id = result["id"]  
         print("Payment ID (Order ID):", order_id)
         return order_id
     else:
