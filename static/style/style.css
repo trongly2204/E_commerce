@@ -1,0 +1,468 @@
+h1 {
+    text-align: center;
+    color: black;
+    padding: 10px;
+    font-style: italic;
+    font-size: 70px;
+}
+h2 {
+    text-align: center;
+    color: rgb(211, 14, 14);
+    padding: 10px;
+    font-style: italic;
+    font-size: 50px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: pink; /* Use pink background as intended */
+}
+
+.login-text {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1em;
+    background: linear-gradient(270deg, 
+        red, orange, yellow, green, blue, indigo, violet, red);
+    background-size: 200% 100%;
+    animation: rainbowFlow 6s linear infinite;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+}
+
+.login-border {
+    color: white;
+    text-decoration: none;
+    padding: 0.5em 1em;
+    background-color: #4CAF50;
+    border-radius: 5px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+}
+.login-border:hover {
+    transform: scale(1.07); /* Zoom in slightly */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Optional: slightly bigger shadow */
+}
+.list-wrapper {
+    display: flex; /* Display the buttons in a row */
+    justify-content: flex-start; /* Align them to the left */
+    padding: 1em;
+}
+
+.list-text {
+    display: flex; /* Ensure the buttons are aligned horizontally */
+}
+
+.list-border {
+    color: white;
+    font-size: 20px;
+    margin-left: 20px; /* Adds space between buttons */
+    padding: 20px;
+    background-color: #4CAF50;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid black;
+
+}
+.list-border:hover {
+    transform: scale(1.05); /* Zoom in slightly */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Optional: slightly bigger shadow */
+}
+.submission {
+    margin-left: 225px;
+    display: flex;
+    justify-content: flex-start; /* or center / flex-end / space-between */
+    align-items: center;
+    gap: 10px; /* space between items */
+}
+.container {
+    text-align: center;
+    margin: 2em auto;
+    max-width: 1000px;
+    padding: 1em;
+}
+
+.product-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2em;
+}
+
+.product {
+    background-color: white;
+    padding: 1em;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+}
+.product:hover {
+    transform: scale(1.05); /* Zoom in slightly */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Optional: slightly bigger shadow */
+}
+.product h3 {
+    margin: 0.5em 0;
+}
+
+.product p {
+    color: #555;
+}
+
+.price {
+    font-weight: bold;
+    color: #000;
+}
+
+.add-to-cart {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-to-cart:hover {
+    background-color: #45a049;
+}
+
+.product img {
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 1em;
+}
+
+@media (max-width: 600px) {
+    .product-list {
+        grid-template-columns: 1fr;
+    }
+}
+.product img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover; /* Ensures the image fits nicely */
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+.dropdown .Welcome-message {
+    cursor: pointer;
+    font-weight: bold;
+    background-color: #4CAF50;
+    padding: 0.5em 1em;
+    border-radius: 5px;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    margin-top: 7px;
+    background-color: rgb(239, 179, 179);
+    min-width: 160px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 6px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.dropdown-content:hover {
+    transform: scale(1.05); /* Zoom in slightly */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Optional: slightly bigger shadow */
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 10px 14px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f0f0f0;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+.sort-button {
+    background-color: rgb(0, 0, 0);
+    color: white;
+    padding: 5px 10px;
+    margin-top: 10px;   /* space from top element */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sort-button:hover {
+    transform: scale(1.05); /* Zoom in slightly */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Optional: slightly bigger shadow */
+}
+
+.hidden {
+    display: none;
+}
+.search-filter {
+    padding: 10px 15px;
+    margin-top: 10px;
+    margin-left: 10px;
+    border-radius: 5px;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    background: linear-gradient(270deg, 
+        red, orange, yellow, green, blue, indigo, violet, red);
+    background-size: 200% 100%;
+    animation: rainbowFlow 6s linear infinite;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-filter:hover {
+    transform: scale(1.01);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Animate gradient background from left to right */
+@keyframes rainbowFlow {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+.menu-button{
+    font-size: large;
+    background: rgb(216, 199, 199);
+    background-color: #4CAF50;
+    color: white;
+    padding: 7px 15px;
+    margin-left: 20px;
+    border-radius: 5px;
+    border: 1px solid black;
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.menu-button:hover {
+    transform: scale(1.05); /* Zoom in slightly */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Optional: slightly bigger shadow */
+}
+
+.menu-cart{
+    display: flex;
+    padding: 10px;
+}
+
+.homepage-button{
+    display: inline-block;
+    background: rgb(216, 199, 199);
+    background-color: #4CAF50;
+    color: white;
+    padding: 7px 15px;
+    margin-left: 5px;
+    border-radius: 5px;
+    border: 1px solid black;
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.homepage-button:hover {
+    transform: scale(1.05); /* Zoom in slightly */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Optional: slightly bigger shadow */
+}
+
+.message{
+    font-style: bold;
+    text-align: center;
+    margin-right: 20px;
+    color: rgb(0, 0, 0);
+    text-shadow: #ddd;
+}
+
+.shipping-box {
+    max-width: 600px;
+    margin: 50px auto;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 12px;
+    background: #f9f9f9;
+}
+.button-group {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+        }
+.button-group a {
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 6px;
+    background-color: #2d89ef;
+    color: white;
+    transition: background 0.3s ease;
+        }
+.button-group a:hover {
+    background-color: #1b5fbd;
+}
+
+
+
+/* Layout */
+
+.container1 {
+    display: flex;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+/* Sidebar menu */
+.section {
+    width: 220px;
+    background-color: #f5f5f5;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+/* Sidebar buttons */
+.section button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.section button:hover {
+    background-color: #0056b3;
+}
+
+/* Main content */
+.content {
+    flex-grow: 1;
+    padding: 40px;
+}
+
+.content h1 {
+    margin-top: 0;
+}
+
+.content input {
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.content button {
+    padding: 10px 15px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.content button:hover {
+    background-color: #218838;
+}
+#checkout-form {
+    max-width: 400px; /* Controls total form width */
+    margin: 0 auto;   /* Center the form horizontally */
+}
+.form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.form-group label {
+    width: 100px; /* fixed width to align vertically */
+    font-size: 20px;
+    font-style: bold;
+    font-family: 'Times New Roman', Times, serif;
+
+}
+
+.form-group input,
+.form-group select {
+    flex: 1;
+    padding: 6px;
+    font-size: 14px;   /* Smaller text */
+    height: 30px; 
+}
+
+.cart-summary{
+    align-items: center;
+    color: black;
+    font-style: bold;
+}
+
+.message {
+  padding: 10px;
+  margin: 10px auto;
+  width: fit-content;
+  border-radius: 4px;
+  font-weight: bold;
+  text-align: center;
+}
+.message.info {
+  background-color: #d9edf7;
+  color: #31708f;
+}
+
+.message.error {
+  background-color: #f2dede;
+  color: #a94442;
+}
+
+.paypal-model {
+    display: flex;
+    justify-content: center;  /* Centers horizontally */
+    align-items: center;      /* Optional: centers vertically */
+    margin-top: 10px;
+    padding-left: 150px;
+}
+
+
+.table-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.cart-table {
+    border-collapse: collapse;
+    width: 80%;
+    max-width: 800px;
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.cart-table th,
+.cart-table td {
+    border: 1px solid #ccc;
+    padding: 10px 15px;
+}
+
+.cart-table th {
+    background-color: #e96c6c;
+    font-weight: bold;
+}
+
+.cart-page{
+    justify-content: center;
+}
