@@ -3,7 +3,7 @@ from requests.auth import HTTPBasicAuth
 
 def payment_check():
     url = "https://api-m.sandbox.paypal.com/v1/oauth2/token"
-    client_id = "CLIENTID"
+    client_id = "CLIENTID" //Replace your Client id and secret on paypal sandbox account
     client_secret = "CLIENTSECRET"
     headers = {
         "Content-Type": "application/x-www-form-urlencoded"
