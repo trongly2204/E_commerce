@@ -1,0 +1,180 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce</title>
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+</head>
+<body>
+
+    <!-- Login/Logout -->
+    <div class="login-text">
+        {% if customer %}
+            <div class="dropdown">
+                <span class="Welcome-message">Hello, {{ customer.username }} ▼</span>
+                <div class="dropdown-content">
+                    <a href="{% url 'profile_page' customer.id %}">Profile</a>
+                    <a href="{% url 'user_order_page' customer.id %}">Orders</a>
+                    <a href="{% url 'logout_page' %}">Logout</a>
+                </div>
+            </div>
+        {%else%}
+            <a href="{% url 'login_page' %}" class="login-border">Login</a>
+        {% endif %}
+    </div>
+
+    <!-- Filter Menu -->
+    <div class="menu-cart">
+        <button type="button" class="menu-button" onclick="menuFilter()">Sort</button>
+        <div class="search-filter" style="display: none;">
+            <form method="get" action="{% url 'product_page' %}" id="filterForm">
+                <input type="text" name="name_search" placeholder="Search by name..." value="{{ request.GET.name_search|default_if_none:'' }}">
+
+                <select name="category">
+                    <option value="">All Categories</option>
+                    <option value="tv" {% if request.GET.category == "tv" %}selected{% endif %}>TV</option>
+                    <option value="accessories" {% if request.GET.category == "accessories" %}selected{% endif %}>Accessories</option>
+                    <option value="phone" {% if request.GET.category == "phone" %}selected{% endif %}>Phone</option>
+                    <option value="laptop" {% if request.GET.category == "laptop" %}selected{% endif %}>Laptop</option>
+                </select>
+
+                <div>
+                    <button type="button" class="sort-button" onclick="toggleSortFilter()">Sort by price</button>
+                    <div id="sortFilter" style="display: none;">
+                        <input type="number" name="min_price" placeholder="Min price" value="{{ request.GET.min_price|default_if_none:'' }}">
+                        <input type="number" name="max_price" placeholder="Max price" value="{{ request.GET.max_price|default_if_none:'' }}">
+                    </div>
+                </div>
+
+                <button type="submit">Filter</button>
+                <button type="button" onclick="clearAllFilter()">Clear</button>
+            </form>
+        </div>
+        <div class="list-text">
+            {% if customer %}
+                <a href="{% url 'cart_page' customer.id %}" class="list-border" style="position: relative;">
+                    🛒
+                    {% if cart_count > 0 %}
+                        <span style="
+                                position: absolute;
+                                top: -5px;
+                                right: -10px;
+                                background: red;
+                                color: white;
+                                border-radius: 50%;
+                                padding: 2px 6px;
+                                font-size: 12px;
+                            ">
+                                {{ cart_count }}
+                        </span>
+                    {% endif %}
+                </a>
+            {% else %}
+                <a href="{% url 'login_page' %}" class="list-border" style="position: relative;">
+                    🛒
+                    {% if cart_count > 0 %}
+                        <span style="
+                                position: absolute;
+                                top: -5px;
+                                right: -10px;
+                                background: red;
+                                color: white;
+                                border-radius: 50%;
+                                padding: 2px 6px;
+                                font-size: 12px;
+                            ">
+                                {{ cart_count }}
+                        </span>
+                    {% endif %}
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Cart Icon -->
+    
+
+    <!-- Weather & Product Section -->
+    <div class="container">
+        <h1>Welcome to E-Store</h1>
+
+        <!-- Auto location fetch -->
+        <script>
+            window.onload = function () {
+                const url = new URL(window.location.href);
+                if (!url.searchParams.get('lat') || !url.searchParams.get('lon')) {
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(function (position) {
+                            const lat = position.coords.latitude;
+                            const lon = position.coords.longitude;
+                            url.searchParams.set('lat', lat);
+                            url.searchParams.set('lon', lon);
+                            window.location.href = url.toString();
+                        }, function (error) {
+                            console.log("Geolocation blocked or failed", error);
+                        });
+                    } else {
+                        console.log("Geolocation not supported.");
+                    }
+                }
+            }
+        </script>
+
+        {% if weather %}
+            <div class="weather-box">
+                <h4>Weather Info:</h4>
+                <p>Temperature Now: {{ weather.0 }}°C</p>
+            </div>
+        {% endif %}
+
+        <!-- Product List -->
+        <div class="product-list">
+            {% for product in list_product %}
+                <div class="product">
+                    <img src="{% static 'images/' %}{{ product.product_image }}" alt="{{ product.product_name }}">
+
+                    <h3>{{ product.product_name }}</h3>
+                    <p>{{ product.product_description }}</p>
+                    <p class="price">${{ product.product_price }}</p>
+
+                    {% if product.product_quantity <= 5 %}
+                        <p>Only {{ product.product_quantity }} left in stock!</p>
+                    {% endif %}
+                    {% if product.product_quantity == 0 %}
+                        <button disabled>Out of Stock!</button>
+                    {% else %}
+                        <form action="{% url 'add_to_cart' product.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.path }}">
+                            <button type="submit" class="add-to-cart">Add to Cart</button>
+                        </form>
+                    {% endif %}
+                </div>
+            {% empty %}
+                <p>No products found.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        function menuFilter() {
+            const searchFilter = document.querySelector('.search-filter');
+            searchFilter.style.display = (searchFilter.style.display === 'none' || searchFilter.style.display === '') 
+                ? 'block' : 'none';
+        }
+
+        function toggleSortFilter() {
+            const sortFil = document.getElementById('sortFilter');
+            sortFil.style.display = (sortFil.style.display === 'none' || sortFil.style.display === '') 
+                ? 'block' : 'none';
+        }
+
+        function clearAllFilter() {
+            window.location.href = window.location.pathname;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Processing Order...</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 100px;
+            background-color: #f4f4f4;
+        }
+        .spinner {
+            font-size: 48px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg);}
+            100% { transform: rotate(360deg);}
+        }
+    </style>
+    <script>
+        setTimeout(function() {
+            window.location.href = "/order_summary_page/{{ order_id }}/";
+        }, 5000);
+    </script>
+</head>
+<body>
+    <h1>✅ Order Placed Successfully</h1>
+    <p>Redirecting to shipping details...</p>
+    <div class="spinner">🔄</div>
+</body>
+</html>

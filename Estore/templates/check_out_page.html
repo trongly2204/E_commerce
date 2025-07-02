@@ -1,0 +1,157 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>E-Commerce Checkout</title>
+    <link rel="stylesheet" href="{% static 'style/style.css' %}" />
+</head>
+<body>
+<div class="container">
+    <h1>Check out & Shipping Information</h1>
+    <div class = "cart-summary">
+        {% if cart.items.all %}
+            <h2>Cart Summary</h2>
+            <div class="table-wrapper">
+                <table class="cart-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart.items.all %}
+                            <tr>
+                                <td>{{ item.product.product_name }}</td>
+                                <td>{{ item.cart_quantity }}</td>
+                                <td>${{ item.cart_price }}</td>
+                                <td>${{ item.total_price }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        {% endif %}
+
+        <div class="cart-summary">
+            <p><strong>Total Quantity:</strong> {{ cart.total_quantity }}</p>
+            <p><strong>Total Price:</strong> ${{ cart.total_price|floatformat:2 }}</p>
+        </div>
+    </div>
+
+    <h2>Shipping Address</h2>
+    <form method="POST" id="checkout-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Full name:</label>
+            <input type="text" name="customer_name" required />
+        </div>
+
+        <div class="form-group">
+            <label>Email Address:</label>
+            <input type="email" name="customer_email" required />
+        </div>
+
+        <div class="form-group">
+            <label>Phone number:</label>
+            <input type="tel" name="customer_phonenumber" required />
+        </div>
+
+        <div class="form-group">
+            <label>Address:</label>
+            <input type="text" name="address" required />
+        </div>
+
+        <div class="form-group">
+            <label>City:</label>
+            <input type="text" name="city" required />
+        </div>
+
+        <div class="form-group">
+            <label>State:</label>
+            <input type="text" name="state" required />
+        </div>
+
+        <div class="form-group">
+            <label>Zip code:</label>
+            <input type="text" name="zip_code" required />
+        </div>
+
+        <div class="form-group">
+            <label>Shipping Method:</label>
+            <select name="method" id="shipping-method" required>
+                <option value="standard">Standard</option>
+                <option value="express">Express</option>
+            </select>
+        </div>
+
+        <p><strong>Shipping:</strong> <span id="shipping-cost">$0.00</span></p>
+        <p><strong>Grand Total:</strong> <span id="grand-total">${{ cart.total_price|floatformat:2 }}</span></p>
+    </form>
+
+    <!-- PayPal Button Container -->
+    <div id="paypal-button-container" class="paypal-model"></div>
+</div>
+
+<!-- PayPal SDK -->
+<script src="https://www.paypal.com/sdk/js?client-id=AVm2PoAZo_69l6YvnUGV3McqnmLZjb9K1UscsI_-6X7Bdsw0TA5j59ipBKm_b8d2etuhrOMGFEkdHm5Q&currency=USD"></script>
+
+<script>
+    let currentGrandTotal = 0;
+    const checkoutForm = document.getElementById('checkout-form');
+
+    function updateShipping() {
+        const method = document.getElementById("shipping-method").value;
+        const shippingCost = method === "express" ? 10 : 5;
+        const cartTotal = parseFloat("{{ cart.total_price }}");
+        const grandTotal = cartTotal + shippingCost;
+        currentGrandTotal = grandTotal;
+
+        document.getElementById("shipping-cost").textContent = "$" + shippingCost.toFixed(2);
+        document.getElementById("grand-total").textContent = "$" + grandTotal.toFixed(2);
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        updateShipping();
+
+        document.getElementById("shipping-method").addEventListener("change", updateShipping);
+
+        paypal.Buttons({
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: currentGrandTotal.toFixed(2)
+                        }
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    alert('Payment completed by ' + details.payer.name.given_name);
+
+                    // Add PayPal transaction ID to form
+                    const transactionInput = document.createElement('input');
+                    transactionInput.type = 'hidden';
+                    transactionInput.name = 'paypal_transaction_id';
+                    transactionInput.value = details.id;
+                    checkoutForm.appendChild(transactionInput);
+
+                    // Submit the form automatically
+                    checkoutForm.submit();
+                });
+            },
+            onError: function(err) {
+                console.error(err);
+                alert("An error occurred with the PayPal transaction.");
+            }
+        }).render('#paypal-button-container');
+    });
+</script>
+</body>
+</html>

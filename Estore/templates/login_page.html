@@ -1,0 +1,44 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login</title>
+        <link rel="stylesheet" href="{% static 'style/style.css' %}">
+    </head>
+    <body>
+        <h1>E-commerce</h1>
+        <h2>Login</h2>
+        <div class="container">
+            <form method="post" action="{% url 'login_page' %}?next={{request.GET.next}}">
+                {% csrf_token %}
+                <!-- Username -->
+                <label for="username">Username</label>
+                <input type="text" name="username" required><br><br>
+
+                <!-- Password -->
+                 <label for="password"> Password</label>
+                 <input type="password" name="password" required><br><br>
+<!-- Get direct next page based on previous sumbit action  -->
+                 {% if request.GET.next %}
+                    <input type="hidden" name="next" value="{{request.GET.next}}">
+                 {%endif%}
+                {% if messages%}
+                    <ul class="message">
+                        {% for message in messages%}
+                            <li class="message" {{message.tags}}">{{message}}</li>
+                        {%endfor%}
+                    </ul>
+                {%endif%}
+                <div class="submission">
+                    <button class="login-border" type="submit" style="margin-left: 160px;">Login</button>
+                    <div class="signup-link">
+                        <p>Don't have an account? <a href="{% url 'signup_page' %}">Sign up</a></p>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </body>
+</html>

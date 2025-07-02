@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Order History</title>
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+</head>
+<body>
+    <div style="margin-top: 20px;">
+        <a href="{% url 'product_page' %}" class="btn">🏠 Home</a>
+        <a href="{% url 'logout_page' %}" class="btn">🚪 Logout</a>
+    </div>
+    <div class="container">
+        <h1> Orders History</h1>
+        {% if orders %}
+            <ul>
+                {% for order in orders %}
+                    <li>
+                        <strong>Order #{{ order.id }}</strong> -
+                        Placed on {{ order.order_date|date:"M d, Y H:i" }} -
+                        <a href="{% url 'order_summary_page' order.id %}">View Details</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No orders found.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

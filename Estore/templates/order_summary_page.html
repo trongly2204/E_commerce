@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Order Summary</title>
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+</head>
+<body> 
+    <div class="container">
+        <h1>Order #{{order.id}} Summary</h1>
+         <p><strong>Date:</strong> {{ order.order_created|date:"M d, Y H:i" }}</p>
+
+        <h3>Items:</h3>
+        <ul>
+            {% for item in order_items %}
+                <li>{{ item.order_quantity }} × {{ item.product.name }} — ${{ item.order_price }} - {{item.total_price}}</li>
+            {% empty %}
+                <li>No items in this order.</li>
+            {% endfor %}
+        </ul>
+         <div class="cart-summary">
+            <p><strong> Total quantity: </strong> {{order.total_quantity}}</p>
+            <p><strong> Total price: </strong> {{order.total_price}}</p>
+        </div>
+
+        <h3>Shipping Info:</h3>
+        {% if shipment %}
+            <p><strong>Name:</strong> {{ shipment.customer_name }}</p>
+            <p><strong>Email:</strong> {{ shipment.customer_email }}</p>
+            <p><strong>Address:</strong> {{ shipment.address }}</p>
+            <p><strong>City:</strong> {{ shipment.city }}, {{ shipment.state }}</p>
+            <p><strong>Country:</strong> {{ shipment.country }}</p>
+            <p><strong>Phone:</strong> {{ shipment.customer_phonenumber }}</p>
+            <p><strong>Method:</strong> {{ shipment.method }}</p>
+            <p><strong>Tracking Number:</strong> {{ shipment.tracking_number }}</p>
+            <p><strong>Status:</strong> {{ shipment.status }}</p>
+        {% else %}
+            <p>No shipping information available.</p>
+        {% endif %}
+        <div style="margin-top: 20px;">
+            <a href="{% url 'product_page' %}" class="btn">🏠 Home</a>
+        </div>
+    </div>
+</body>
+</html>

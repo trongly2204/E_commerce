@@ -1,0 +1,46 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Signup</title>
+        <link rel="stylesheet" href="{% static 'style/style.css' %}">
+    </head>
+    <body>
+        <h1>E-commerce</h1>
+        <h2>Signup</h2>
+        <div class="container">
+            <form method="post" action="{% url 'signup_page'%}">
+                {% csrf_token %}
+                <label for="username">Username</label>
+                <input type="text" name="username" required><br><br>
+
+                <label for="password">Password</label>
+                <input type="password" name="password" required><br><br>
+
+                <label for="re_password">Re-password</label>
+                <input type="password" name="re_password" required><br><br>
+
+                <label for="email">Email</label>
+                <input type="email" name="email" required><br><br>
+
+                <label for="first_name">First name:</label>
+                <input type="text" name="first_name" required><br><br>
+
+                <label for="last_name">Last name:</label>
+                <input type="text" name="last_name" required><br><br>
+                
+                <a href="{% url 'login_page' %}" class="login-border">Back to login</a>
+                <button type="submit" class="login-border">Signup</button>
+            </form>
+            {% if messages%}
+                <ul class="message">
+                    {% for message in messages%}
+                        <li class="message" {{message.tags}}">{{message}}</li>
+                    {%endfor%}
+                </ul>
+            {%endif%}
+        </div>
+
+    </body>

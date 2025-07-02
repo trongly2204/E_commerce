@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Logging Out...</title>
+    <script>
+        // Redirect after 5 seconds
+        setTimeout(function () {
+            window.location.href = "{% url 'product_page' %}";
+        }, 2000);
+    </script>
+</head>
+<body style="background-color: white; text-align: center; padding-top: 100px; font-family: sans-serif;">
+
+    <h2>You have been logged out.</h2>
+    <p>Redirecting to the product page, please wait...</p>
+
+    <!-- Inline SVG Spinner -->
+    <div style="margin-top: 30px;">
+        <svg width="50" height="50" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="black">
+            <circle cx="50" cy="50" r="35" stroke-width="10" stroke="#999" fill="none"
+                    stroke-dasharray="164.93361431346415 56.97787143782138">
+                <animateTransform attributeName="transform"
+                                  type="rotate"
+                                  repeatCount="indefinite"
+                                  dur="1s"
+                                  values="0 50 50;360 50 50"/>
+            </circle>
+        </svg>
+    </div>
+
+</body>
+</html>

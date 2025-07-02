@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Your Profile</title>
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+</head>
+<body>
+    <div class="container1">
+        {% if customer %}
+            <div class="section">
+                <button onclick="showSection('profile')">Profile Information</button>
+                <button onclick="showSection('order')">Order History</button>
+                <button onclick="showSection('change_password')">Change Password</button>
+            </div>
+
+            <div class="content">
+                <div id="profile" style="display: block;">
+                    <h1>Profile Detail</h1>
+                    <p>Username: {{ customer.username }}</p>
+                    <p>Email: {{ customer.email }}</p>
+                    <p>First Name: {{ customer.first_name }}</p>
+                    <p>Last Name: {{ customer.last_name }}</p>
+                </div>
+
+                <div id="order" style="display: none;">
+                    <h1>Order History</h1>
+                    {% if orders %}
+                        <ul>
+                            {% for order in orders %}
+                                <li>
+                                    <strong>Order #{{ order.id }}</strong> -
+                                    Placed on {{ order.order_date|date:"M d, Y H:i" }} -
+                                    <a href="{% url 'order_summary_page' order.id %}">View Details</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>No orders found.</p>
+                    {% endif %}
+                </div>
+
+                <div id="change_password" style="display: none;">
+                    <h1>Change Password</h1>
+                    <form method="post">
+                        {% csrf_token %}
+                        <label>Old Password:</label>
+                        <input type="password" name="old_password" required><br>
+
+                        <label>New Password:</label>
+                        <input type="password" name="new_password" required><br>
+
+                        <label>Confirm New Password:</label>
+                        <input type="password" name="confirm_password" required><br>
+
+                        <button type="submit">Change Password</button>
+                    </form>
+                </div>
+                <div id="homepage" style="display: none;">
+                    <a href="{% url 'product_page' %}">Homepage</a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    <script>
+    function showSection(id) {
+        const sections = ['profile', 'order', 'change_password', 'homepage'];
+        sections.forEach(function(sectionId) {
+            const section = document.getElementById(sectionId);
+            section.style.display = (sectionId === id) ? 'block' : 'none';
+        });
+    }
+    setTimeout(function () {
+        const msgBox = document.getElementById('message-box');
+        if (msgBox) {
+            msgBox.style.transition = "opacity 0.5s ease-out";
+            msgBox.style.opacity = "0";
+            setTimeout(() => {
+                msgBox.style.display = "none";
+            }, 500); // wait for fade-out transition to finish
+        }
+    }, 4000);
+    </script>
+                {% if messages %}
+                <div id="message-box">
+                    {% for message in messages %}
+                        <p style="color: green;">{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+</body>
+</html>
